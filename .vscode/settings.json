@@ -1,0 +1,14 @@
+{
+  "cSpell.import": [
+    "./eng/cspell.config.json"
+  ],
+  "eslint.options": {
+    "overrideConfigFile": "./eng/eslint.config.js",
+  },
+  "eslint.workingDirectories": [
+    "."
+  ],
+  "eslint.runtime": "node",
+  "css.lint.unknownAtRules": "ignore",
+  "typescript.tsdk": "./node_modules/typescript/lib",
+}

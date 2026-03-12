@@ -1,0 +1,19 @@
+{
+  "extends": "../../eng/tsconfig.base.json",
+  "compilerOptions": {
+    "lib": [
+      "DOM",
+      "ESNext"
+    ],
+    "tsBuildInfoFile": "../../node_modules/.cache/tsbuild/client.tsbuildinfo",
+    "paths": {
+      "@shared/*": [
+        "../shared/*"
+      ],
+    }
+  },
+  "include": [
+    "./**/*",
+    "../shared/**/*.ts",
+  ]
+}

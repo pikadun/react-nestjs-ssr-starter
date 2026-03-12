@@ -1,0 +1,4 @@
+{
+  "*": "cspell --config ./eng/cspell.config.json",
+  "*.{js,ts}": "eslint --config ./eng/eslint.config.js --fix"
+}

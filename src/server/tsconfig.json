@@ -1,0 +1,20 @@
+{
+  "extends": "../../eng/tsconfig.base.json",
+  "compilerOptions": {
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "tsBuildInfoFile": "../../node_modules/.cache/tsbuild/server.tsbuildinfo",
+    "paths": {
+      "@shared/*": [
+        "../shared/*"
+      ],
+      "@client/*": [
+        "../client/*"
+      ],
+    }
+  },
+  "include": [
+    "./**/*.ts",
+    "../shared/**/*.ts",
+  ],
+}

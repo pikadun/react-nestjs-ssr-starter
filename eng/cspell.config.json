@@ -1,0 +1,31 @@
+{
+  "cache": {
+    "cacheLocation": "../node_modules/.cache/cspell",
+    "useCache": true
+  },
+  "useGitignore": true,
+  "ignorePaths": [
+    "**/*.css",
+    "**/*.d.ts",
+    "**/*.svg"
+  ],
+  "words": [
+    "camaro",
+    "commitlint",
+    "commitlintrc",
+    "endregion",
+    "FOUC",
+    "linebreak",
+    "lintstagedrc",
+    "nosources",
+    "outdir",
+    "outfile",
+    "pikadun",
+    "primeuix",
+    "primevue",
+    "reka",
+    "rsbuild",
+    "rspack",
+    "subtests"
+  ]
+}

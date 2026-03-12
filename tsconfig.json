@@ -1,0 +1,17 @@
+{
+  "files": [],
+  "references": [
+    {
+      "path": "./scripts/tsconfig.json",
+    },
+    {
+      "path": "./src/server/tsconfig.json",
+    },
+    {
+      "path": "./src/client/tsconfig.json"
+    },
+    {
+      "path": "./src/shared/tsconfig.json"
+    }
+  ]
+}
