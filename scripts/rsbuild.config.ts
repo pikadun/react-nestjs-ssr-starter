@@ -1,12 +1,9 @@
-import { PrimeVueResolver } from "@primevue/auto-import-resolver";
 import { defineConfig, type EnvironmentConfig } from "@rsbuild/core";
-import { pluginVue as PluginVue } from "@rsbuild/plugin-vue";
-import PluginAutoImport from "unplugin-vue-components/rspack";
+import { pluginReact } from "@rsbuild/plugin-react";
 
 import pkg from "../package.json" with { type: "json" };
 import {
     ASSET_PREFIX,
-    AUTO_IMPORT_DTS_PATH,
     CLIENT_ENTRY_NAME,
     CLIENT_ENTRY_PATH,
     CLIENT_ENVIRONMENT_NAME,
@@ -54,12 +51,7 @@ const clientConfig: EnvironmentConfig = {
     },
 };
 
-const pluginVue = PluginVue();
-const primeVueResolver = PrimeVueResolver();
-const pluginAutoImport = PluginAutoImport({
-    resolvers: [primeVueResolver],
-    dts: AUTO_IMPORT_DTS_PATH,
-});
+const reactPlugin = pluginReact();
 
 export default defineConfig({
     root: ROOT_DIR,
@@ -97,8 +89,8 @@ export default defineConfig({
             watchOptions: {
                 aggregateTimeout: 50,
             },
-            plugins: [pluginAutoImport],
+            plugins: [],
         },
     },
-    plugins: [pluginVue],
+    plugins: [reactPlugin],
 });

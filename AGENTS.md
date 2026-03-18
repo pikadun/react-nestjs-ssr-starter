@@ -1,7 +1,7 @@
 # Agent Instructions For This Repository
 
 ## Project Scope
-- Stack: Vue 3 + Vue Router (SSR) + PrimeVue, NestJS + Fastify, Rsbuild 2, TypeScript.
+- Stack: React 19 + React Router 7 (SSR), NestJS + Fastify, Rsbuild, TypeScript.
 - Directories:
   - `src/client`: browser app and SSR app composition
   - `src/server`: backend and SSR delivery
@@ -16,9 +16,10 @@
 - Keep backend modules lightweight under `src/server/modules/*`.
 
 ## SSR And Routing Conventions
-- Keep SSR flow: `createApp` + `router.push(url)` + `router.isReady()`.
-- Router catch-all redirects to home; SSR maps catch-all to 404.
-- Route changes must check both `src/client/router.ts` and SSR behavior.
+- Keep SSR flow: `createStaticHandler(routes)` + `handler.query(request)` + `createStaticRouter(dataRoutes, context)` + `renderToString(<RouterProvider />)`.
+- Browser hydration uses `createBrowserRouter(routes, { basename })` + `hydrateRoot`.
+- SSR returns `null` when no route matches and server maps it to 404.
+- Route changes must check both `src/client/routes.tsx` and SSR behavior.
 
 ## API Conventions
 - Use `ApiController` for API route prefixing (`/api/*`).
@@ -36,8 +37,11 @@
 - `npm run lint`
 - `npm run type-check`
 
+## Debugging Workflow
+- If any code or configuration is modified, restart the running dev/debug process before re-testing.
+
 ## Frontend UI Habit (Thin Layer)
-- Use PrimeVue as the default UI component source.
+- Use Mantine as the default UI component source when UI components are needed.
 - Thin wrappers are optional; if needed, keep only `Button`, `Input`, `Dialog`.
 - Theme scope is Light only; do not implement multi-theme support.
 - Variant scope is fixed to: `primary`, `secondary`, `ghost`.

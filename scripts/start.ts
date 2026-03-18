@@ -6,6 +6,10 @@ import { createRsbuild, type OnAfterDevCompileFn, type Rspack } from "@rsbuild/c
 import { CLIENT_SOURCE_DIR, SERVER_ENTRY_NAME, SERVER_ENVIRONMENT_NAME } from "./constant.ts";
 import rsbuildConfig from "./rsbuild.config.ts";
 
+interface Asset {
+    source: () => string | Buffer;
+}
+
 const rsbuild = await createRsbuild({ rsbuildConfig });
 const devServer = await rsbuild.createDevServer();
 const sockets = new Set<Socket>();
@@ -26,7 +30,7 @@ const collectChangedFiles = (stats: Rspack.Stats[]) => {
 
 const getServerAssetSource = (stats: Rspack.Stats[]) => {
     const serverStats = stats.find(s => s.compilation.name === SERVER_ENVIRONMENT_NAME);
-    const assets = serverStats?.compilation.assets[`${SERVER_ENTRY_NAME}.js`];
+    const assets = serverStats?.compilation.assets[`${SERVER_ENTRY_NAME}.js`] as Asset | undefined;
 
     if (!assets) {
         throw new Error("Server assets not found");

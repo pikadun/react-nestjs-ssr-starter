@@ -1,12 +1,13 @@
-# vue-nestjs-ssr-starter
+# react-nestjs-ssr-starter
 
-A lightweight full-stack SSR starter with Vue 3, NestJS, Fastify, PrimeVue, and Rsbuild.
+A lightweight full-stack SSR starter with React, NestJS, Fastify, and Rsbuild.
 
 ## Tech Stack
 
-- Vue 3 + Vue Router (SSR) + PrimeVue
+- React 19 + React Router 7 (SSR)
+- Mantine (optional UI library)
 - NestJS + Fastify
-- Rsbuild 2 + TypeScript
+- Rsbuild + TypeScript
 - Sequelize + SQLite (`:memory:`)
 - Zod + `nestjs-zod`
 
@@ -42,9 +43,10 @@ src/server/ # Nest service and SSR/API modules
 src/shared/ # Shared code for frontend and backend
 ```
 
-## TODO
+## Notes
 
-- The project currently suffers from a FOUC (Flash of Unstyled Content) issue during SSR. PrimeVue styles are not inlined at server render time, causing a visible style flash on first load. This needs to be resolved upstream by the PrimeVue community. Tracking: https://github.com/primefaces/primevue/issues/7289, https://github.com/primefaces/primevue/issues/8044
+- In this SSR setup, avoid importing third-party CSS from modules used by the server SSR entry to prevent Node runtime CSS parsing errors.
+- Keep global third-party CSS imports in the browser entry (`src/client/index.tsx`) when possible.
 
 ## License
 

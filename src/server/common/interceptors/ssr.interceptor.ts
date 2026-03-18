@@ -1,7 +1,8 @@
 import fs from "node:fs/promises";
+import { IncomingMessage } from "node:http";
 import path from "node:path";
 
-import { createApp } from "@client/ssr";
+import { renderApp } from "@client/ssr";
 import {
     type CallHandler,
     type ExecutionContext,
@@ -10,11 +11,8 @@ import {
     NotFoundException,
     type OnModuleInit,
 } from "@nestjs/common";
-import { AppRouteName } from "@shared/routes";
-import { SSR_WINDOW_KEY } from "@shared/ssr-data";
 import type { FastifyReply, FastifyRequest } from "fastify";
 import { switchMap } from "rxjs";
-import { renderToString } from "vue/server-renderer";
 
 import { config } from "../../config";
 import {
@@ -43,45 +41,37 @@ export class SsrInterceptor implements NestInterceptor, OnModuleInit {
         return this.#template;
     }
 
-    private async render(url: string, data?: unknown) {
+    private async render(incoming: IncomingMessage) {
         const template = await this.getTemplate();
-        const { app, router } = createApp({ basePath: config.basePath, ssrData: data });
-        const location = router.resolve(url);
+        const request = new Request(`http://localhost${incoming.url}`);
 
-        if (location.name === AppRouteName.CatchAll) {
+        const content = await renderApp({ request });
+
+        if (!content) {
             return null;
         }
 
-        await router.push(url);
-        await router.isReady();
-
-        const content = await renderToString(app);
-
-        const serialized = data !== undefined
-            ? `<script>window.${SSR_WINDOW_KEY}=${JSON.stringify(data).replace(/</g, "\\u003c")}</script>`
-            : "";
-
         const renderData: Record<string, string> = {
             [HTML_PLACEHOLDER_BASE]: `<base href="${path.join(config.basePath, "/")}">`,
-            [HTML_PLACEHOLDER_CONTENT]: content + serialized,
+            [HTML_PLACEHOLDER_CONTENT]: content,
         };
+
         return template.replace(/<!--(\w+)-->/g, (_, key: string) => renderData[key] ?? "");
     }
 
     intercept(context: ExecutionContext, next: CallHandler) {
         return next.handle().pipe(
-            switchMap(async (data?: unknown) => {
+            switchMap(async () => {
                 const req = context.switchToHttp().getRequest<FastifyRequest>();
                 const res = context.switchToHttp().getResponse<FastifyReply>();
-                const url = stripBasePath(req.url);
-                const html = await this.render(url, data);
+                Object.assign(req.raw, { body: req.body, url: stripBasePath(req.url) });
+
+                const html = await this.render(req.raw);
 
                 if (html) {
                     res.type("text/html").send(html);
                 }
                 else if (global.devServer) {
-                    Object.assign(req.raw, { body: req.body, url });
-
                     await new Promise<void>((_resolve, reject) => {
                         global.devServer?.middlewares(req.raw, res.raw, () => {
                             reject(new NotFoundException());

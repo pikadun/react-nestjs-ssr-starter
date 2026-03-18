@@ -5,6 +5,7 @@
       "DOM",
       "ESNext"
     ],
+    "jsx": "react-jsx",
     "tsBuildInfoFile": "../../node_modules/.cache/tsbuild/client.tsbuildinfo",
     "paths": {
       "@shared/*": [
