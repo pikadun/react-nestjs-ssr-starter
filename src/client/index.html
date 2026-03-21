@@ -1,12 +1,23 @@
 <!DOCTYPE html>
-<html lang="zh" data-mantine-color-scheme="light">
+<html lang="zh">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Web Template</title>
+    <script>
+        (function () {
+            var key = "mantine-color-scheme-value";
+            var stored = window.localStorage.getItem(key);
+            var scheme = ["light", "dark", "auto"].includes(stored) ? stored : "auto";
+            var resolved = scheme === "auto"
+                ? (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light")
+                : scheme;
+
+            document.documentElement.setAttribute("data-mantine-color-scheme", resolved);
+        })();
+    </script>
     <!--base-->
-    <!--css-->
 </head>
 
 <body>
