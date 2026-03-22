@@ -30,7 +30,7 @@ if (lazyMatches?.length) {
     );
 }
 
-const router = createBrowserRouter(routes, { basename });
+const router = createBrowserRouter(routes, { basename, hydrationData: window.__staticRouterHydrationData });
 
 if (root) {
     hydrateRoot(

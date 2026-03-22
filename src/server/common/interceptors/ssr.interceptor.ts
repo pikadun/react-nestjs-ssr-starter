@@ -1,5 +1,4 @@
 import fs from "node:fs/promises";
-import { IncomingMessage } from "node:http";
 import path from "node:path";
 
 import { renderApp } from "@client/ssr";
@@ -21,7 +20,7 @@ import {
     HTML_PLACEHOLDER_BASE,
     HTML_PLACEHOLDER_CONTENT,
 } from "../../constant";
-import { stripBasePath } from "../../utils/url";
+import { ensureBasePath, stripBasePath } from "../../utils/url";
 
 @Injectable()
 export class SsrInterceptor implements NestInterceptor, OnModuleInit {
@@ -34,18 +33,35 @@ export class SsrInterceptor implements NestInterceptor, OnModuleInit {
         }
     }
 
-    private async getTemplate(): Promise<string> {
-        if (global.devServer) {
-            return global.devServer.environments[CLIENT_ENVIRONMENT_NAME]?.getTransformedHtml(CLIENT_ENTRY_NAME) ?? "";
-        }
-        return this.#template;
+    intercept(context: ExecutionContext, next: CallHandler) {
+        return next.handle().pipe(
+            switchMap(async (data: unknown) => {
+                const req = context.switchToHttp().getRequest<FastifyRequest>();
+                const res = context.switchToHttp().getResponse<FastifyReply>();
+                const html = await this.render(req.url, data);
+
+                if (html) {
+                    res.type("text/html").send(html);
+                }
+                else if (global.devServer) {
+                    await new Promise<void>((_resolve, reject) => {
+                        Object.assign(req.raw, { body: req.body, url: stripBasePath(req.url) });
+                        global.devServer?.middlewares(req.raw, res.raw, () => {
+                            reject(new NotFoundException());
+                        });
+                    });
+                }
+                else {
+                    throw new NotFoundException();
+                }
+            }),
+        );
     }
 
-    private async render(incoming: IncomingMessage) {
+    private async render(url: string, loaderData: unknown) {
         const template = await this.getTemplate();
-        const request = new Request(`http://localhost${incoming.url}`);
-
-        const content = await renderApp({ request });
+        const request = new Request(`http://localhost${ensureBasePath(url)}`);
+        const content = await renderApp({ basename: config.basePath, request, loaderData });
 
         if (!content) {
             return null;
@@ -59,29 +75,10 @@ export class SsrInterceptor implements NestInterceptor, OnModuleInit {
         return template.replace(/<!--(\w+)-->/g, (_, key: string) => renderData[key] ?? "");
     }
 
-    intercept(context: ExecutionContext, next: CallHandler) {
-        return next.handle().pipe(
-            switchMap(async () => {
-                const req = context.switchToHttp().getRequest<FastifyRequest>();
-                const res = context.switchToHttp().getResponse<FastifyReply>();
-                Object.assign(req.raw, { body: req.body, url: stripBasePath(req.url) });
-
-                const html = await this.render(req.raw);
-
-                if (html) {
-                    res.type("text/html").send(html);
-                }
-                else if (global.devServer) {
-                    await new Promise<void>((_resolve, reject) => {
-                        global.devServer?.middlewares(req.raw, res.raw, () => {
-                            reject(new NotFoundException());
-                        });
-                    });
-                }
-                else {
-                    throw new NotFoundException();
-                }
-            }),
-        );
+    private async getTemplate(): Promise<string> {
+        if (global.devServer) {
+            return global.devServer.environments[CLIENT_ENVIRONMENT_NAME]?.getTransformedHtml(CLIENT_ENTRY_NAME) ?? "";
+        }
+        return this.#template;
     }
 }
