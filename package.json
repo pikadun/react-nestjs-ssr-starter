@@ -55,6 +55,6 @@
     "typescript": "~5.9.3",
     "typescript-eslint": "^8.57.0",
     "unplugin-vue-components": "^31.0.0",
-    "vue-tsc": "^3.2.5"
+    "vue-tsc": "^3.2.6"
   }
 }
