@@ -1,6 +1,6 @@
 import { Module } from "@nestjs/common";
-import { APP_PIPE } from "@nestjs/core";
-import { ZodValidationPipe } from "nestjs-zod";
+import { APP_INTERCEPTOR, APP_PIPE } from "@nestjs/core";
+import { ZodSerializerInterceptor, ZodValidationPipe } from "nestjs-zod";
 
 import { AppController } from "./app.controller";
 import { DatabaseModule } from "./core/database/database.module";
@@ -10,7 +10,6 @@ import { TodoModule } from "./modules/todo/todo.module";
     imports: [
         DatabaseModule.forRoot(),
 
-        // Import feature modules here
         TodoModule,
     ],
     // AppController has a wildcard route, so it must be registered last
@@ -20,6 +19,10 @@ import { TodoModule } from "./modules/todo/todo.module";
             provide: APP_PIPE,
             useClass: ZodValidationPipe,
         },
+        {
+            provide: APP_INTERCEPTOR,
+            useClass: ZodSerializerInterceptor,
+        },
     ],
 })
-export class AppModule {}
+export class AppModule { }

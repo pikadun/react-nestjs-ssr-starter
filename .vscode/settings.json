@@ -9,6 +9,4 @@
     "."
   ],
   "eslint.runtime": "node",
-  "css.lint.unknownAtRules": "ignore",
-  "typescript.tsdk": "./node_modules/typescript/lib",
 }
