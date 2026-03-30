@@ -38,5 +38,12 @@ export default defineConfig(
             files: ["src/server/**/*.module.ts"],
             rules: { "@typescript-eslint/no-extraneous-class": "off" },
         },
+        {
+            files: ["src/client/**/*.{ts,tsx}"],
+            rules: {
+                "@typescript-eslint/no-misused-promises": "off",
+                "@typescript-eslint/no-floating-promises": "off",
+            },
+        },
     ),
 );

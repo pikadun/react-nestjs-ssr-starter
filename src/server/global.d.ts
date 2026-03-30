@@ -1,13 +1,5 @@
-/// <reference types="@rsbuild/core/types" />
-
-import type { RsbuildDevServer } from "@rsbuild/core";
-import { type Server } from "http";
+import type { CustomDevServer } from "@shared/types/dev";
 
 declare global {
-    var devServer: RsbuildDevServer | undefined;
-
-    interface Application {
-        bootstrap: () => Promise<Server>;
-        stop: () => Promise<void>;
-    }
+    var __DEV_SERVER__: CustomDevServer | undefined;
 }

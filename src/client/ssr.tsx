@@ -1,15 +1,10 @@
+import type { RenderApp, RenderAppOptions } from "@shared/types/ssr";
 import { renderToString } from "react-dom/server";
 import { createStaticHandler, createStaticRouter, StaticRouterProvider } from "react-router";
 
 import { routes } from "./routes";
 
-export interface RenderAppOptions {
-    basename?: string;
-    loaderData?: unknown;
-    request: Request;
-}
-
-export const renderApp = async (options: RenderAppOptions) => {
+export const renderApp: RenderApp = async (options: RenderAppOptions) => {
     const { basename = "/", loaderData, request } = options;
     const handler = createStaticHandler(routes, { basename });
     const context = await handler.query(request);

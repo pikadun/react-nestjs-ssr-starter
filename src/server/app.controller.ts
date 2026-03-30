@@ -6,7 +6,7 @@ import { ensureBasePath } from "./utils/url";
 
 @Controller()
 export class AppController {
-    @Page("*", global.devServer ? All : Get)
+    @Page("*", global.__DEV_SERVER__ ? All : Get)
     serve(@Req() req: FastifyRequest, @Res() res: FastifyReply) {
         const url = ensureBasePath(req.url);
 

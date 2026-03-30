@@ -1,36 +1,28 @@
-import fs from "node:fs/promises";
 import path from "node:path";
 
-import { renderApp } from "@client/ssr";
 import {
     type CallHandler,
     type ExecutionContext,
+    Inject,
     Injectable,
     type NestInterceptor,
-    NotFoundException,
     type OnModuleInit,
 } from "@nestjs/common";
 import type { FastifyReply, FastifyRequest } from "fastify";
 import { switchMap } from "rxjs";
 
 import { config } from "../../config";
-import {
-    CLIENT_ENTRY_NAME,
-    CLIENT_ENVIRONMENT_NAME,
-    HTML_PLACEHOLDER_BASE,
-    HTML_PLACEHOLDER_CONTENT,
-} from "../../constant";
-import { ensureBasePath, stripBasePath } from "../../utils/url";
+import { HTML_PLACEHOLDER_BASE, HTML_PLACEHOLDER_CONTENT } from "../../constant";
+import { SSR_SERVICE } from "../../modules/ssr/ssr.constant";
+import type { SsrServiceBase } from "../../modules/ssr/ssr.interface";
+import { ensureBasePath } from "../../utils/url";
 
 @Injectable()
 export class SsrInterceptor implements NestInterceptor, OnModuleInit {
-    #template!: string;
+    constructor(@Inject(SSR_SERVICE) private readonly strategy: SsrServiceBase) {}
 
     async onModuleInit() {
-        if (!global.devServer) {
-            const templatePath = path.join(import.meta.dirname, "index.html");
-            this.#template = await fs.readFile(templatePath, "utf-8");
-        }
+        await this.strategy.init();
     }
 
     intercept(context: ExecutionContext, next: CallHandler) {
@@ -43,25 +35,18 @@ export class SsrInterceptor implements NestInterceptor, OnModuleInit {
                 if (html) {
                     res.type("text/html").send(html);
                 }
-                else if (global.devServer) {
-                    await new Promise<void>((_resolve, reject) => {
-                        Object.assign(req.raw, { body: req.body, url: stripBasePath(req.url) });
-                        global.devServer?.middlewares(req.raw, res.raw, () => {
-                            reject(new NotFoundException());
-                        });
-                    });
-                }
                 else {
-                    throw new NotFoundException();
+                    await this.strategy.handleFallback(req, res);
                 }
             }),
         );
     }
 
     private async render(url: string, loaderData: unknown) {
-        const template = await this.getTemplate();
+        const template = await this.strategy.getTemplate();
         const request = new Request(`http://localhost${ensureBasePath(url)}`);
-        const content = await renderApp({ basename: config.basePath, request, loaderData });
+        const render = await this.strategy.getRender();
+        const content = await render({ basename: config.basePath, request, loaderData });
 
         if (!content) {
             return null;
@@ -73,12 +58,5 @@ export class SsrInterceptor implements NestInterceptor, OnModuleInit {
         };
 
         return template.replace(/<!--(\w+)-->/g, (_, key: string) => renderData[key] ?? "");
-    }
-
-    private async getTemplate(): Promise<string> {
-        if (global.devServer) {
-            return global.devServer.environments[CLIENT_ENVIRONMENT_NAME]?.getTransformedHtml(CLIENT_ENTRY_NAME) ?? "";
-        }
-        return this.#template;
     }
 }

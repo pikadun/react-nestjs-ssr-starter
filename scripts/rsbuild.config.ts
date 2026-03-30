@@ -14,6 +14,8 @@ import {
     SERVER_ENTRY_NAME,
     SERVER_ENTRY_PATH,
     SERVER_ENVIRONMENT_NAME,
+    SSR_ENTRY_NAME,
+    SSR_ENTRY_PATH,
     STATIC_NAME,
 } from "./constant.ts";
 
@@ -23,6 +25,10 @@ const serverConfig: EnvironmentConfig = {
     source: {
         entry: {
             [SERVER_ENTRY_NAME]: SERVER_ENTRY_PATH,
+            [SSR_ENTRY_NAME]: {
+                import: SSR_ENTRY_PATH,
+                asyncChunks: false,
+            },
         },
         decorators: {
             version: "legacy",
@@ -30,7 +36,12 @@ const serverConfig: EnvironmentConfig = {
     },
     output: {
         target: "node",
-        externals: [...Object.keys(pkg.dependencies), "tslib"].map(dep => new RegExp(`^${dep}($|/.*)`)),
+        externals: [
+            ...Object.keys(pkg.dependencies).concat("tslib").map(dep => new RegExp(`^${dep}($|/.*)`)),
+            {
+                "@client/ssr": "module ./ssr.js",
+            },
+        ],
         sourceMap: {
             js: isDev ? "inline-cheap-module-source-map" : "nosources-source-map",
         },

@@ -1,10 +1,12 @@
-import { HttpClient } from "@shared/http/http-client";
 import type { ListTodosResponse } from "@shared/schemas/todo.schema";
+import axios from "axios";
 
 const baseElement = document.querySelector("base");
 const baseURL = baseElement?.getAttribute("href") ?? "/";
-const httpClient = new HttpClient({ baseURL });
+const httpClient = axios.create({ baseURL });
 
 export const getList = async () => {
-    return httpClient.get<ListTodosResponse>("/api/todo");
+    const { data } = await httpClient.get<ListTodosResponse>("/api/todo");
+
+    return data;
 };

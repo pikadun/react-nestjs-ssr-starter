@@ -4,12 +4,14 @@ import { ZodSerializerInterceptor, ZodValidationPipe } from "nestjs-zod";
 
 import { AppController } from "./app.controller";
 import { DatabaseModule } from "./core/database/database.module";
+import { SsrModule } from "./modules/ssr/ssr.module";
 import { TodoModule } from "./modules/todo/todo.module";
 
 @Module({
     imports: [
         DatabaseModule.forRoot(),
 
+        SsrModule,
         TodoModule,
     ],
     // AppController has a wildcard route, so it must be registered last

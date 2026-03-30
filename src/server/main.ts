@@ -3,6 +3,7 @@ import path from "node:path";
 import { Logger } from "@nestjs/common";
 import { NestFactory } from "@nestjs/core";
 import { FastifyAdapter, type NestFastifyApplication } from "@nestjs/platform-fastify";
+import type { Application } from "@shared/types/dev";
 
 import { AppModule } from "./app.module";
 import { config } from "./config";
@@ -21,7 +22,7 @@ export const bootstrap: Application["bootstrap"] = async () => {
     // Set global prefix for all routes, exclude the ssr route
     app.setGlobalPrefix(config.basePath, { exclude: ["\\*"] });
 
-    if (!global.devServer) {
+    if (!global.__DEV_SERVER__) {
         const staticPath = path.join(import.meta.dirname, STATIC_NAME);
         const staticPrefix = path.join(config.basePath, STATIC_NAME);
         app.useStaticAssets({ root: staticPath, prefix: staticPrefix });
@@ -39,6 +40,6 @@ export const stop: Application["stop"] = async () => {
     await app.close();
 };
 
-if (!global.devServer) {
+if (!global.__DEV_SERVER__) {
     await bootstrap();
 }
