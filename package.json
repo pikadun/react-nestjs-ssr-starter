@@ -42,7 +42,7 @@
     "@camaro/tsconfig": "^1.4.0",
     "@commitlint/cli": "^20.5.0",
     "@commitlint/config-conventional": "^20.5.0",
-    "@rsbuild/core": "^2.0.0-beta.10",
+    "@rsbuild/core": "^2.0.0-rc.0",
     "@rsbuild/plugin-react": "^1.4.6",
     "@types/node": "^24.11.0",
     "@types/react": "^19.2.14",
