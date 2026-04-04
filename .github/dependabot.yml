@@ -21,6 +21,10 @@ updates:
       npm-major:
         update-types:
           - "major"
+    ignore:
+      - dependency-name: "@types/node"
+        versions:
+          - ">=25"
     open-pull-requests-limit: 5
     labels:
       - "dependencies"

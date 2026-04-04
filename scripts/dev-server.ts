@@ -9,16 +9,12 @@ import {
     SSR_ENTRY_NAME,
 } from "./constant.ts";
 
-interface Asset {
-    source: () => string | Buffer;
-}
-
 export const extendDevServer = (rsbuildDevServer: RsbuildDevServer) => {
     const devServer = rsbuildDevServer as CustomDevServer;
 
     devServer.getServerAssetSource = (stats: Rspack.Stats[]) => {
         const serverStats = stats.find(s => s.compilation.name === SERVER_ENVIRONMENT_NAME);
-        const assets = serverStats?.compilation.assets[`${SERVER_ENTRY_NAME}.js`] as Asset | undefined;
+        const assets = serverStats?.compilation.assets[`${SERVER_ENTRY_NAME}.js`];
 
         if (!assets) {
             throw new Error("Server assets not found");
