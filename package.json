@@ -1,7 +1,7 @@
 {
   "name": "react-nestjs-ssr-starter",
   "version": "0.0.1",
-  "description": "A lightweight full-stack SSR starter with React, NestJS, Fastify, and Rsbuild.",
+  "description": "A lightweight full-stack starter for server-side rendering with NestJS and React.",
   "type": "module",
   "scripts": {
     "dev": "APP_ENV=development node --experimental-strip-types --experimental-vm-modules scripts/start.ts",

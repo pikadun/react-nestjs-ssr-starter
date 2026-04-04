@@ -1,20 +1,31 @@
 # react-nestjs-ssr-starter
 
-A lightweight full-stack SSR starter with React, NestJS, Fastify, and Rsbuild.
+A lightweight full-stack starter for server-side rendering with NestJS and React.
+
+## Overview
+
+This project combines:
+
+- NestJS (with Fastify) as the HTTP server and API layer
+- React + React Router for UI and route-based rendering
+- SSR rendering pipeline that serves HTML from the server, then hydrates on the client
+
+## SSR Architecture
+
+- NestJS handles incoming page requests
+- Server-side React rendering produces HTML for the current route
+- Data can be prepared on the server and hydrated into the client
+- Client-side React takes over after hydration for interactive updates
+
+This gives a balanced setup for SEO, fast first paint, and modern SPA behavior after load.
 
 ## Tech Stack
 
-- React 19 + React Router 7 (SSR)
-- Mantine (optional UI library)
-- NestJS + Fastify
+- React 19 + React Router 7
+- NestJS 11 + Fastify
 - Rsbuild + TypeScript
-- Sequelize + SQLite (`:memory:`)
-- Zod + `nestjs-zod`
-
-## Requirements
-
-- Node.js >= 22.6.0
-- npm
+- Sequelize + SQLite
+- Zod + nestjs-zod
 
 ## Quick Start
 
@@ -23,30 +34,25 @@ npm install
 npm run dev
 ```
 
-Default development URL: `http://localhost:8888/development`
+Dev URL: `http://localhost:8888/development`
 
 ## Scripts
 
-- `npm run dev`
-- `npm run build`
-- `npm run preview`
-- `npm run lint`
-- `npm run type-check`
+- `npm run dev` - start development server
+- `npm run build` - build client and server bundles
+- `npm run preview` - run production build
+- `npm run lint` - run spellcheck and ESLint
+- `npm run type-check` - run TypeScript project checks
 
-## Project Layout
+## Project Structure
 
 ```text
-eng/        # Engineering configuration
-scripts/    # Build and development bootstrap
-src/client/ # Frontend and SSR app composition
-src/server/ # Nest service and SSR/API modules
-src/shared/ # Shared code for frontend and backend
+eng/        engineering configuration
+scripts/    build/dev bootstrap
+src/client/ React app and SSR entry
+src/server/ Nest modules, APIs, and SSR integration
+src/shared/ shared types, schemas, and route constants
 ```
-
-## Notes
-
-- In this SSR setup, avoid importing third-party CSS from modules used by the server SSR entry to prevent Node runtime CSS parsing errors.
-- Keep global third-party CSS imports in the browser entry (`src/client/index.tsx`) when possible.
 
 ## License
 
