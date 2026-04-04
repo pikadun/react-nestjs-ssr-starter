@@ -8,7 +8,9 @@ export class TodoService {
     constructor(@Inject(TodoModel) private todoModel: Repository<TodoModel>) { }
 
     async findAll(): Promise<TodoModel[]> {
-        return this.todoModel.findAll();
+        return this.todoModel.findAll({
+            order: [["id", "DESC"]],
+        });
     }
 
     async create(title: string): Promise<TodoModel> {
