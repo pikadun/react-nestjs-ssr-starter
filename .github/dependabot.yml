@@ -9,7 +9,20 @@ updates:
     directory: "/" # Location of package manifests
     schedule:
       interval: "weekly"
-    versioning-strategy: "increase"
+      day: "monday"
+      time: "03:00"
+      timezone: "Asia/Shanghai"
+    versioning-strategy: "increase-if-necessary"
+    groups:
+      npm-non-breaking:
+        update-types:
+          - "minor"
+          - "patch"
+      npm-major:
+        update-types:
+          - "major"
     open-pull-requests-limit: 5
+    labels:
+      - "dependencies"
     commit-message:
       prefix: "chore(deps): "
