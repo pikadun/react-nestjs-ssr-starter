@@ -1,6 +1,8 @@
+import { PageRoute } from "@shared/routes";
 import type { CreateTodo, ListTodosResponse } from "@shared/schemas/todo.schema";
 
 import { httpClient } from "./http";
+import { registerSSRHydration } from "./ssr-hydration";
 
 const TODO_API = "/api/todo";
 
@@ -8,6 +10,10 @@ export const todoQueryKeys = {
     all: ["todos"] as const,
     list: () => [...todoQueryKeys.all, "list"] as const,
 };
+
+registerSSRHydration(PageRoute.TodoList, {
+    queryKey: todoQueryKeys.list(),
+});
 
 export const listTodos = async (): Promise<ListTodosResponse> => {
     const { data } = await httpClient.get<ListTodosResponse>(TODO_API);

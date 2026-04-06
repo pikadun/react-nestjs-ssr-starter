@@ -1,7 +1,12 @@
 export interface RenderAppOptions {
     basename?: string;
-    loaderData?: unknown;
+    prefetchedData?: unknown;
     request: Request;
 }
 
-export type RenderApp = (options: RenderAppOptions) => Promise<string | null>;
+export interface RenderAppResult {
+    html: string;
+    dehydratedState: unknown;
+}
+
+export type RenderApp = (options: RenderAppOptions) => Promise<RenderAppResult | null>;

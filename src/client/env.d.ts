@@ -1,11 +1,7 @@
 /// <reference types="@rsbuild/core/types" />
 
-import type { HydrationState } from "react-router";
-
-declare global {
-    interface Window {
-        __staticRouterHydrationData?: HydrationState;
-    }
+interface Window {
+    __SSR_STATE__?: unknown;
 }
 
 /**
