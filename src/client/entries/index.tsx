@@ -8,8 +8,9 @@ import {
     type RouteObject,
 } from "react-router";
 
-import { App, createQueryClient } from "../App";
+import { App } from "../App";
 import { routes } from "../routes";
+import { createQueryClient } from "../utils/query-client";
 
 const basename = window.__APP__.basePath;
 const root = document.querySelector("#root");

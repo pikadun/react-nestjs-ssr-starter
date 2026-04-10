@@ -19,7 +19,7 @@ export default defineConfig(
             },
         },
         {
-            files: ["src/shared/**/*.{ts,tsx}"],
+            files: ["src/client/**/*.{ts,tsx}"],
             extends: [
                 reactHooks.configs.flat["recommended"],
                 reactRefresh.configs.recommended,

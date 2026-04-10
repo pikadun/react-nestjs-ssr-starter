@@ -1,5 +1,5 @@
 import { MantineProvider } from "@mantine/core";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { type QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import type React from "react";
 import type { StaticHandlerContext } from "react-router";
 import { RouterProvider, StaticRouterProvider } from "react-router";
@@ -18,15 +18,6 @@ interface SSRAppProps extends BaseAppProps {
 }
 
 type AppProps = ClientAppProps | SSRAppProps;
-
-export const createQueryClient = () =>
-    new QueryClient({
-        defaultOptions: {
-            queries: {
-                staleTime: 1000 * 60, // 1 minute
-            },
-        },
-    });
 
 export const App: React.FC<AppProps> = ({ queryClient, router, context }) => {
     return (

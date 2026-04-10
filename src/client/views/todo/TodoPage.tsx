@@ -7,6 +7,7 @@ import { TodoInput } from "./components/TodoInput";
 import { TodoList } from "./components/TodoList";
 import { useTodos } from "./hooks/useTodos";
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const handle: RouteHandle = {
     hydrate: (queryClient, data) => {
         queryClient.setQueryData(todoQueryKeys.list(), data);
