@@ -1,7 +1,7 @@
-/// <reference types="@rsbuild/core/types" />
-
-interface Window {
-    __SSR_STATE__?: unknown;
+declare global {
+    interface Window {
+        __SSR_STATE__?: unknown;
+    }
 }
 
 /**
@@ -13,3 +13,5 @@ declare module "*.svg?react" {
     const ReactComponent: React.FunctionComponent<React.SVGProps<SVGSVGElement>>;
     export default ReactComponent;
 }
+
+export {};

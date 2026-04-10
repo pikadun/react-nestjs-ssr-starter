@@ -1,7 +1,7 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 
-import { renderApp } from "@client/ssr";
+import { renderApp } from "@client/entries/ssr";
 import { Injectable, NotFoundException } from "@nestjs/common";
 
 import type { SsrServiceBase } from "./ssr.interface";

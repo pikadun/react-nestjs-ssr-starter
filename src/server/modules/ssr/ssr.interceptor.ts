@@ -59,6 +59,6 @@ export class SsrInterceptor implements NestInterceptor, OnModuleInit {
                 `<script>window.__SSR_STATE__ = ${JSON.stringify(result.dehydratedState)}</script>`,
         };
 
-        return template.replace(/<!--(\w+)-->/g, (_, key: string) => renderData[key] ?? "");
+        return template.replace(/<!--([\w-]+)-->/g, (_, key: string) => renderData[key] ?? "");
     }
 }

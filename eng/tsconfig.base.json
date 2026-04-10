@@ -1,10 +1,13 @@
 {
   "extends": "@camaro/tsconfig/base.json",
   "compilerOptions": {
-    "noEmit": true,
+    "erasableSyntaxOnly": false,
     "module": "esnext",
     "moduleResolution": "bundler",
+    "noEmit": true,
     "rewriteRelativeImportExtensions": false,
-    "erasableSyntaxOnly": false
+    "types": [
+      "@rsbuild/core/types"
+    ]
   }
 }

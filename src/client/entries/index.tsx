@@ -1,8 +1,4 @@
-import {
-    hydrate,
-    QueryClient,
-    QueryClientProvider,
-} from "@tanstack/react-query";
+import { hydrate } from "@tanstack/react-query";
 import React from "react";
 import { hydrateRoot } from "react-dom/client";
 import {
@@ -10,15 +6,15 @@ import {
     type LazyRouteFunction,
     matchRoutes,
     type RouteObject,
-    RouterProvider,
 } from "react-router";
 
-import { routes } from "./routes";
+import { App, createQueryClient } from "../App";
+import { routes } from "../routes";
 
 const baseElement = document.querySelector("base");
 const basename = baseElement?.getAttribute("href") ?? "/";
 const root = document.querySelector("#root");
-const queryClient = new QueryClient();
+const queryClient = createQueryClient();
 
 hydrate(queryClient, window.__SSR_STATE__);
 
@@ -44,9 +40,7 @@ if (root) {
     hydrateRoot(
         root,
         <React.StrictMode>
-            <QueryClientProvider client={queryClient}>
-                <RouterProvider router={router} />
-            </QueryClientProvider>
+            <App queryClient={queryClient} router={router} />
         </React.StrictMode>,
     );
 }

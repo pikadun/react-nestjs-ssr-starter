@@ -1,18 +1,23 @@
 import { PageRoute } from "@shared/routes";
-import type React from "react";
-import type { RouteObject } from "react-router";
+import type { RouteHandle } from "@shared/types/route";
+import type { LazyRouteFunction, RouteObject } from "react-router";
 
-import { App } from "./App";
+import { RootLayout } from "./layouts/RootLayout";
 
-const components: Record<PageRoute, () => Promise<{ Component: React.FC }>> = {
+interface PageModule {
+    Component: RouteObject["Component"];
+    handle?: RouteHandle;
+}
+
+const lazyRoutes: Record<PageRoute, LazyRouteFunction<PageModule>> = {
     [PageRoute.Homepage]: () => import("./views/Homepage"),
     [PageRoute.TodoList]: () => import("./views/Todo"),
 };
 
 export const routes: RouteObject[] = [
     {
-        Component: App,
-        children: Object.entries(components).map<RouteObject>(([path, lazy]) => ({
+        Component: RootLayout,
+        children: Object.entries(lazyRoutes).map<RouteObject>(([path, lazy]) => ({
             id: path,
             path,
             lazy,

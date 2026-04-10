@@ -1,13 +1,11 @@
-// 触发各页面的 hydration 注册（副作用导入）
-import "./services/todo.client";
-
+import type { RouteHandle } from "@shared/types/route";
 import type { RenderApp, RenderAppOptions } from "@shared/types/ssr";
-import { dehydrate, QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { dehydrate } from "@tanstack/react-query";
 import { renderToString } from "react-dom/server";
-import { createStaticHandler, createStaticRouter, type StaticHandler, StaticRouterProvider } from "react-router";
+import { createStaticHandler, createStaticRouter, type StaticHandler } from "react-router";
 
-import { routes } from "./routes";
-import { getSSRHydration } from "./services/ssr-hydration";
+import { App, createQueryClient } from "../App";
+import { routes } from "../routes";
 
 let cachedHandler: StaticHandler | null = null;
 
@@ -26,14 +24,12 @@ export const renderApp: RenderApp = async (options: RenderAppOptions) => {
         return null;
     }
 
-    const queryClient = new QueryClient();
+    const queryClient = createQueryClient();
 
     if (prefetchedData) {
         for (const match of context.matches) {
-            const hydration = match.route.id ? getSSRHydration(match.route.id) : undefined;
-            if (hydration) {
-                queryClient.setQueryData(hydration.queryKey, prefetchedData);
-            }
+            const handle = match.route.handle as RouteHandle | undefined;
+            handle?.hydrate?.(queryClient, prefetchedData);
         }
     }
 
@@ -41,9 +37,7 @@ export const renderApp: RenderApp = async (options: RenderAppOptions) => {
     const router = createStaticRouter(handler.dataRoutes, context);
 
     const html = renderToString(
-        <QueryClientProvider client={queryClient}>
-            <StaticRouterProvider router={router} context={context} />
-        </QueryClientProvider>,
+        <App queryClient={queryClient} router={router} context={context} />,
     );
 
     return { html, dehydratedState };

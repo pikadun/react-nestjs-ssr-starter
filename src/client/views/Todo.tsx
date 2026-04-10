@@ -10,6 +10,7 @@ import {
     Title,
 } from "@mantine/core";
 import type { ListTodosResponse } from "@shared/schemas/todo.schema";
+import type { RouteHandle } from "@shared/types/route";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import React, { useMemo, useState } from "react";
 
@@ -19,6 +20,12 @@ import {
     listTodos,
     todoQueryKeys,
 } from "../services/todo.client";
+
+export const handle: RouteHandle = {
+    hydrate: (queryClient, data) => {
+        queryClient.setQueryData(todoQueryKeys.list(), data);
+    },
+};
 
 export const Component: React.FC = () => {
     const queryClient = useQueryClient();
