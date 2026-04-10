@@ -1,6 +1,6 @@
 import type { CreateTodo, ListTodosResponse } from "@shared/schemas/todo.schema";
 
-import { httpClient } from "./http";
+import { httpClient } from "./http-client";
 
 const TODO_API = "/api/todo";
 

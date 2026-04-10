@@ -6,8 +6,5 @@
     "moduleResolution": "bundler",
     "noEmit": true,
     "rewriteRelativeImportExtensions": false,
-    "types": [
-      "@rsbuild/core/types"
-    ]
   }
 }

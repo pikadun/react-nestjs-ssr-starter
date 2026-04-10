@@ -11,8 +11,7 @@ import {
 import { App, createQueryClient } from "../App";
 import { routes } from "../routes";
 
-const baseElement = document.querySelector("base");
-const basename = baseElement?.getAttribute("href") ?? "/";
+const basename = window.__APP__.basePath;
 const root = document.querySelector("#root");
 const queryClient = createQueryClient();
 

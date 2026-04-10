@@ -1,6 +1,9 @@
 declare global {
     interface Window {
         __SSR_STATE__?: unknown;
+        __APP__: {
+            basePath: string;
+        };
     }
 }
 

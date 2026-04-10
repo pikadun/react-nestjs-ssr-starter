@@ -11,7 +11,7 @@ interface PageModule {
 
 const lazyRoutes: Record<PageRoute, LazyRouteFunction<PageModule>> = {
     [PageRoute.Homepage]: () => import("./views/Homepage"),
-    [PageRoute.TodoList]: () => import("./views/Todo"),
+    [PageRoute.TodoList]: () => import("./views/todo/TodoPage"),
 };
 
 export const routes: RouteObject[] = [

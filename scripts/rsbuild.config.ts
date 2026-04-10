@@ -39,7 +39,7 @@ const serverConfig: EnvironmentConfig = {
         externals: [
             ...Object.keys(pkg.dependencies).concat("tslib").map(dep => new RegExp(`^${dep}($|/.*)`)),
             {
-                "@client/ssr": "module ./ssr.js",
+                "@client/entries/ssr": "module ./ssr.js",
             },
         ],
         sourceMap: {

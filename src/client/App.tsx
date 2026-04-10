@@ -33,7 +33,7 @@ export const App: React.FC<AppProps> = ({ queryClient, router, context }) => {
         <QueryClientProvider client={queryClient}>
             <MantineProvider defaultColorScheme="auto">
                 {context
-                    ? <StaticRouterProvider router={router} context={context} />
+                    ? <StaticRouterProvider router={router} context={context} hydrate={false} />
                     : <RouterProvider router={router} />}
             </MantineProvider>
         </QueryClientProvider>

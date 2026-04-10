@@ -7,23 +7,16 @@
   "ignorePaths": [
     "**/*.css",
     "**/*.d.ts",
-    "**/*.svg"
+    "**/*.svg",
+    "**/tsconfig.json"
   ],
   "words": [
     "camaro",
     "commitlint",
     "commitlintrc",
-    "endregion",
-    "FOUC",
-    "linebreak",
     "lintstagedrc",
     "nosources",
-    "outdir",
-    "outfile",
-    "pikadun",
-    "reka",
     "rsbuild",
-    "rspack",
-    "subtests"
+    "rspack"
   ]
 }
