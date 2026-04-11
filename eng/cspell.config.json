@@ -11,10 +11,12 @@
     "**/tsconfig.json"
   ],
   "words": [
+    "autoincrement",
     "camaro",
     "commitlint",
     "commitlintrc",
     "lintstagedrc",
+    "mikro",
     "nosources",
     "rsbuild",
     "rspack"

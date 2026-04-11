@@ -24,7 +24,7 @@ This gives a balanced setup for SEO, fast first paint, and modern SPA behavior a
 - React 19 + React Router 7
 - NestJS 11 + Fastify
 - Rsbuild + TypeScript
-- Sequelize + SQLite
+- MikroOrm + SQLite
 - Zod + nestjs-zod
 
 ## Quick Start

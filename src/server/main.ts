@@ -1,5 +1,6 @@
 import path from "node:path";
 
+import { MikroORM } from "@mikro-orm/core";
 import { Logger } from "@nestjs/common";
 import { NestFactory } from "@nestjs/core";
 import { FastifyAdapter, type NestFastifyApplication } from "@nestjs/platform-fastify";
@@ -26,6 +27,9 @@ export const bootstrap: Application["bootstrap"] = async () => {
         const staticPath = path.join(import.meta.dirname, STATIC_NAME);
         const staticPrefix = path.join(config.basePath, STATIC_NAME);
         app.useStaticAssets({ root: staticPath, prefix: staticPrefix });
+    }
+    else {
+        await app.get(MikroORM).schema.update();
     }
 
     const server = await app.listen(config.port);

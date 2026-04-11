@@ -9,7 +9,7 @@ import { TodoModule } from "./modules/todo/todo.module";
 
 @Module({
     imports: [
-        DatabaseModule.forRoot(),
+        DatabaseModule,
 
         SsrModule,
         TodoModule,

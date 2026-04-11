@@ -1,73 +1,23 @@
-import { type DynamicModule, Global, Logger, Module, type Provider } from "@nestjs/common";
-import { Model, type ModelStatic, type Options, Sequelize } from "@sequelize/core";
-import { SqliteDialect } from "@sequelize/sqlite3";
+import { ReflectMetadataProvider } from "@mikro-orm/decorators/legacy";
+import { MikroOrmModule } from "@mikro-orm/nestjs";
+import { SqliteDriver } from "@mikro-orm/sqlite";
+import { Logger } from "@nestjs/common";
 
-export const SEQUELIZE_PROVIDER = Symbol("SEQUELIZE_PROVIDER");
-export type Repository<T extends Model> = ModelStatic<T>;
+import { config } from "../../config";
+import { AppEnv } from "../../utils/env";
 
-@Global()
-@Module({})
-export class DatabaseModule {
-    static models = new Set<ModelStatic>();
-    static logger = new Logger(DatabaseModule.name);
-
-    static forRoot() {
-        const options: Options<SqliteDialect> = {
-            dialect: SqliteDialect,
-            storage: ":memory:",
-            logging: (sql) => {
-                this.logger.debug(sql);
-            },
-            pool: {
-                idle: Infinity,
-                max: 1,
-            },
-        };
-
-        const dynamicModule: DynamicModule = {
-            module: DatabaseModule,
-            providers: [
-                {
-                    provide: SEQUELIZE_PROVIDER,
-                    useFactory: async () => {
-                        const sequelize = new Sequelize(options);
-
-                        sequelize.addModels(Array.from(this.models));
-
-                        await sequelize.authenticate();
-                        await sequelize.sync();
-
-                        return sequelize;
-                    },
-                },
-            ],
-            exports: [SEQUELIZE_PROVIDER],
-        };
-
-        return dynamicModule;
-    }
-
-    static forFeature(...models: ModelStatic[]) {
-        const providers = models.map<Provider>((model) => {
-            const provider: Provider = {
-                provide: model,
-                useFactory: (sequelize: Sequelize) => {
-                    return sequelize.models.get(model.options.modelName);
-                },
-                inject: [SEQUELIZE_PROVIDER],
-            };
-
-            this.models.add(model);
-
-            return provider;
-        });
-
-        const dynamicModule: DynamicModule = {
-            module: DatabaseModule,
-            providers: providers,
-            exports: providers,
-        };
-
-        return dynamicModule;
-    }
-}
+export const DatabaseModule = MikroOrmModule.forRoot({
+    autoLoadEntities: true,
+    dbName: ":memory:",
+    debug: config.appEnv === AppEnv.Development,
+    driver: SqliteDriver,
+    logger: (message) => {
+        Logger.log(message, MikroOrmModule.name);
+    },
+    metadataProvider: ReflectMetadataProvider,
+    registerRequestContext: true,
+    schemaGenerator: {
+        createForeignKeyConstraints: false,
+        disableForeignKeys: true,
+    },
+});

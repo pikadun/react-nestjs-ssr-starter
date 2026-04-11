@@ -1,26 +1,33 @@
-import { Inject, Injectable } from "@nestjs/common";
+import { InjectRepository } from "@mikro-orm/nestjs";
+import type { EntityRepository } from "@mikro-orm/sqlite";
+import { Injectable } from "@nestjs/common";
 
-import type { Repository } from "../../core/database/database.module";
-import { TodoModel } from "./todo.model";
+import { TodoEntity } from "./todo.entity";
 
 @Injectable()
 export class TodoService {
-    constructor(@Inject(TodoModel) private todoModel: Repository<TodoModel>) { }
+    constructor(
+        @InjectRepository(TodoEntity) private readonly repo: EntityRepository<TodoEntity>,
+    ) { }
 
-    async findAll(): Promise<TodoModel[]> {
-        return this.todoModel.findAll({
-            order: [["id", "DESC"]],
+    async findAll(): Promise<TodoEntity[]> {
+        return this.repo.findAll({
+            orderBy: { id: "DESC" },
         });
     }
 
-    async create(title: string): Promise<TodoModel> {
-        return this.todoModel.create({ title });
+    async create(title: string): Promise<TodoEntity> {
+        const todo = this.repo.create({ title, completed: false });
+        this.repo.getEntityManager().persist(todo);
+        await this.repo.getEntityManager().flush();
+        return todo;
     }
 
     async delete(id: number): Promise<void> {
-        const todo = await this.todoModel.findByPk(id);
+        const todo = await this.repo.findOne({ id });
         if (todo) {
-            await todo.destroy();
+            this.repo.getEntityManager().remove(todo);
+            await this.repo.getEntityManager().flush();
         }
     }
 }
