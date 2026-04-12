@@ -15,7 +15,6 @@ export const DatabaseModule = MikroOrmModule.forRoot({
         Logger.log(message, MikroOrmModule.name);
     },
     metadataProvider: ReflectMetadataProvider,
-    registerRequestContext: true,
     schemaGenerator: {
         createForeignKeyConstraints: false,
         disableForeignKeys: true,

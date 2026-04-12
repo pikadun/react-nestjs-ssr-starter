@@ -17,6 +17,22 @@ export default defineConfig(
             languageOptions: {
                 globals: globals.node,
             },
+            rules: {
+                "no-restricted-imports": [
+                    "error", {
+                        paths: [
+                            {
+                                name: "@mikro-orm/core",
+                                message: "Please import from '@mikro-orm/sqlite' instead.",
+                            },
+                        ],
+                    },
+                ],
+            },
+        },
+        {
+            files: ["src/server/**/*.module.ts"],
+            rules: { "@typescript-eslint/no-extraneous-class": "off" },
         },
         {
             files: ["src/client/**/*.{ts,tsx}"],
@@ -27,22 +43,15 @@ export default defineConfig(
             languageOptions: {
                 globals: globals.browser,
             },
+            rules: {
+                "@typescript-eslint/no-misused-promises": "off",
+                "@typescript-eslint/no-floating-promises": "off",
+            },
         },
         {
             files: ["src/shared/**/*.ts"],
             languageOptions: {
                 globals: globals["shared-node-browser"],
-            },
-        },
-        {
-            files: ["src/server/**/*.module.ts"],
-            rules: { "@typescript-eslint/no-extraneous-class": "off" },
-        },
-        {
-            files: ["src/client/**/*.{ts,tsx}"],
-            rules: {
-                "@typescript-eslint/no-misused-promises": "off",
-                "@typescript-eslint/no-floating-promises": "off",
             },
         },
     ),

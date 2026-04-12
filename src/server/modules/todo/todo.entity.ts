@@ -1,4 +1,5 @@
 import { Entity, Property } from "@mikro-orm/decorators/legacy";
+import type { Opt } from "@mikro-orm/sqlite";
 
 import { BaseEntity } from "../../common/entities/base.entity";
 
@@ -10,5 +11,5 @@ export class TodoEntity extends BaseEntity {
     title!: string;
 
     @Property()
-    completed = false;
+    completed: Opt<boolean> = false;
 }

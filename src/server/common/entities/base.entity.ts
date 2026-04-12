@@ -1,15 +1,13 @@
-import { BaseEntity as MikroBaseEntity, OptionalProps } from "@mikro-orm/core";
 import { PrimaryKey, Property } from "@mikro-orm/decorators/legacy";
+import { BaseEntity as MikroBaseEntity, type Opt } from "@mikro-orm/sqlite";
 
 export abstract class BaseEntity extends MikroBaseEntity {
-    [OptionalProps]?: "createdAt" | "updatedAt";
-
     @PrimaryKey({ autoincrement: true })
     id!: bigint;
 
     @Property()
-    createdAt = new Date();
+    createdAt: Opt<Date> = new Date();
 
     @Property({ onUpdate: () => new Date() })
-    updatedAt = new Date();
+    updatedAt: Opt<Date> = new Date();
 }
