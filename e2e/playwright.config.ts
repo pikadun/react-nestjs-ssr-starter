@@ -1,3 +1,5 @@
+import path from "node:path";
+
 import { defineConfig, devices } from "@playwright/test";
 
 // These values must stay in sync with:
@@ -6,6 +8,7 @@ import { defineConfig, devices } from "@playwright/test";
 const PORT = 8888;
 const BASE_PATH = "/development";
 const BASE_URL = `http://localhost:${PORT}${BASE_PATH}`;
+const ROOT_DIR = path.resolve(import.meta.dirname, "..");
 
 export default defineConfig({
     testDir: ".",
@@ -26,6 +29,7 @@ export default defineConfig({
     ],
     webServer: {
         command: "APP_ENV=development node lib/main.js",
+        cwd: ROOT_DIR,
         url: BASE_URL,
         reuseExistingServer: !process.env.CI,
     },
