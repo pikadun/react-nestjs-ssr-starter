@@ -1,3 +1,9 @@
 node_modules/
 lib/
 out/
+
+# Playwright
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/

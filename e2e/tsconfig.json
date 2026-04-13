@@ -1,0 +1,13 @@
+{
+  "extends": "../eng/tsconfig.base.json",
+  "compilerOptions": {
+    "noEmit": true,
+    "tsBuildInfoFile": "../node_modules/.cache/tsbuild/e2e.tsbuildinfo",
+    "types": [
+      "@types/node"
+    ]
+  },
+  "include": [
+    "./**/*.ts"
+  ]
+}

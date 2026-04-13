@@ -14,6 +14,8 @@
     "postinstall": "husky || true",
     "prepreview": "npm run build",
     "preview": "APP_ENV=development node lib/main.js",
+    "pretest:e2e": "npm run build",
+    "test:e2e": "playwright test --config e2e/playwright.config.ts",
     "type-check": "rm -rf ./node_modules/.cache/tsbuild && tsc --build ./tsconfig.json"
   },
   "author": "Dunn",
@@ -44,6 +46,7 @@
     "@camaro/tsconfig": "^1.4.0",
     "@commitlint/cli": "^20.5.0",
     "@commitlint/config-conventional": "^20.5.0",
+    "@playwright/test": "^1.59.1",
     "@rsbuild/core": "^2.0.0-rc.0",
     "@rsbuild/plugin-react": "^1.4.6",
     "@types/node": "^24.11.0",
