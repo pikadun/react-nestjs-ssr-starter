@@ -1,32 +1,48 @@
-# To get started with Dependabot version updates, you'll need to specify which
-# package ecosystems to update and where the package manifests are located.
-# Please see the documentation for all configuration options:
-# https://docs.github.com/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file
-
 version: 2
 updates:
-  - package-ecosystem: "npm" # See documentation for possible values
-    directory: "/" # Location of package manifests
+  - package-ecosystem: "npm"
+    directory: "/"
     schedule:
       interval: "weekly"
       day: "monday"
       time: "03:00"
       timezone: "Asia/Shanghai"
-    versioning-strategy: "increase-if-necessary"
+    versioning-strategy: "increase"
     groups:
-      npm-non-breaking:
+      non-breaking:
         update-types:
           - "minor"
           - "patch"
+      typescript:
+        patterns:
+          - "typescript"
       npm-major:
         update-types:
           - "major"
+        exclude-patterns:
+          - "typescript"
     ignore:
       - dependency-name: "@types/node"
         versions:
           - ">=25"
+    reviewers:
+      - "pikadun"
     open-pull-requests-limit: 5
     labels:
       - "dependencies"
     commit-message:
       prefix: "chore(deps): "
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "03:00"
+      timezone: "Asia/Shanghai"
+    reviewers:
+      - "pikadun"
+    labels:
+      - "dependencies"
+    commit-message:
+      prefix: "chore(ci): "
