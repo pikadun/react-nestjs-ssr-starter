@@ -22,22 +22,22 @@
   "license": "MIT",
   "dependencies": {
     "@fastify/static": "^9.0.0",
-    "@mantine/core": "^9.0.0",
+    "@mantine/core": "^9.0.2",
     "@mantine/hooks": "^9.0.0",
     "@mikro-orm/core": "^7.0.10",
     "@mikro-orm/decorators": "^7.0.10",
     "@mikro-orm/nestjs": "^7.0.1",
     "@mikro-orm/sqlite": "^7.0.10",
-    "@nestjs/common": "^11.1.17",
-    "@nestjs/core": "^11.1.17",
-    "@nestjs/platform-fastify": "^11.1.17",
+    "@nestjs/common": "^11.1.19",
+    "@nestjs/core": "^11.1.19",
+    "@nestjs/platform-fastify": "^11.1.19",
     "@tanstack/react-query": "^5.96.1",
     "axios": "^1.14.0",
     "deepmerge": "^4.3.1",
     "nestjs-zod": "^5.2.1",
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
-    "react-router": "^7.13.2",
+    "react-router": "^7.14.1",
     "rxjs": "^7.8.2",
     "zod": "^4.3.6"
   },
@@ -61,6 +61,6 @@
     "lint-staged": "^16.4.0",
     "type-fest": "^5.5.0",
     "typescript": "~6.0.2",
-    "typescript-eslint": "^8.58.0"
+    "typescript-eslint": "^8.58.2"
   }
 }
