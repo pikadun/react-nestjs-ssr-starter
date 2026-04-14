@@ -52,7 +52,7 @@
     "@types/node": "^24.11.0",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
-    "cspell": "^9.7.0",
+    "cspell": "^10.0.0",
     "eslint": "^10.1.0",
     "eslint-plugin-react-hooks": "^7.1.0-canary-9627b5a1-20260327",
     "eslint-plugin-react-refresh": "^0.5.2",
