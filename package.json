@@ -4,7 +4,7 @@
   "description": "A lightweight full-stack starter for server-side rendering with NestJS and React.",
   "type": "module",
   "scripts": {
-    "dev": "APP_ENV=development node --experimental-strip-types --experimental-vm-modules scripts/start.ts",
+    "dev": "APP_ENV=development node --experimental-strip-types --experimental-vm-modules --enable-source-maps scripts/start.ts",
     "build": "rsbuild build --config ./scripts/rsbuild.config.ts",
     "commitlint": "commitlint --config ./eng/.commitlintrc.json --edit",
     "cspell": "cspell --config ./eng/cspell.config.json --quiet .",
@@ -13,7 +13,7 @@
     "lint:staged": "lint-staged --config ./eng/.lintstagedrc.json",
     "postinstall": "husky || true",
     "prepreview": "npm run build",
-    "preview": "APP_ENV=development node lib/main.js",
+    "preview": "APP_ENV=development node --enable-source-maps lib/main.js",
     "pretest:e2e": "npm run build",
     "test:e2e": "playwright test --config e2e/playwright.config.ts",
     "type-check": "rm -rf ./node_modules/.cache/tsbuild && tsc --build ./tsconfig.json"

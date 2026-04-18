@@ -101,6 +101,9 @@ export default defineConfig({
                 aggregateTimeout: 50,
             },
             plugins: [],
+            output: {
+                devtoolModuleFilenameTemplate: isDev ? "[absolute-resource-path]" : undefined,
+            },
         },
     },
     plugins: [reactPlugin],

@@ -1,3 +1,5 @@
+import "./patch-source-map.ts";
+
 import crypto from "node:crypto";
 import { type Socket } from "node:net";
 
