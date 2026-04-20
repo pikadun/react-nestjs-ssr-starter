@@ -11,15 +11,19 @@ import {
 import type { FastifyReply, FastifyRequest } from "fastify";
 import { switchMap } from "rxjs";
 
-import { config } from "../../config";
+import type { Config } from "../../config/schema";
 import { HTML_PLACEHOLDER_BASE, HTML_PLACEHOLDER_CONTENT, HTML_PLACEHOLDER_SSR_STATE } from "../../constant";
+import { ConfigToken } from "../../core/config/config.module";
 import { ensureBasePath } from "../../utils/url";
 import { SSR_SERVICE } from "./ssr.constant";
 import type { SsrServiceBase } from "./ssr.interface";
 
 @Injectable()
 export class SsrInterceptor implements NestInterceptor, OnModuleInit {
-    constructor(@Inject(SSR_SERVICE) private readonly service: SsrServiceBase) {}
+    constructor(
+        @Inject(SSR_SERVICE) private readonly service: SsrServiceBase,
+        @Inject(ConfigToken) private readonly config: Config,
+    ) { }
 
     async onModuleInit() {
         await this.service.init();
@@ -44,16 +48,16 @@ export class SsrInterceptor implements NestInterceptor, OnModuleInit {
 
     private async render(url: string, prefetchedData: unknown) {
         const template = await this.service.getTemplate();
-        const request = new Request(`http://localhost${ensureBasePath(url)}`);
+        const request = new Request(`http://localhost${ensureBasePath(url, this.config.app.basePath)}`);
         const render = await this.service.getRender();
-        const result = await render({ basename: config.basePath, request, prefetchedData });
+        const result = await render({ basename: this.config.app.basePath, request, prefetchedData });
 
         if (!result) {
             return null;
         }
 
         const renderData: Record<string, string> = {
-            [HTML_PLACEHOLDER_BASE]: `<base href="${path.join(config.basePath, "/")}">`,
+            [HTML_PLACEHOLDER_BASE]: `<base href="${path.join(this.config.app.basePath, "/")}">`,
             [HTML_PLACEHOLDER_CONTENT]: result.html,
             [HTML_PLACEHOLDER_SSR_STATE]:
                 `<script>window.__SSR_STATE__ = ${JSON.stringify(result.dehydratedState)}</script>`,

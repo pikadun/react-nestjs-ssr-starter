@@ -1,6 +1,7 @@
 node_modules/
 lib/
 out/
+.env
 
 # Playwright
 /test-results/

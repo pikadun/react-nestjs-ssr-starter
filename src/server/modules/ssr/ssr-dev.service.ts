@@ -1,13 +1,19 @@
-import { Injectable, NotFoundException } from "@nestjs/common";
+import { Inject, Injectable, NotFoundException } from "@nestjs/common";
 import type { CustomDevServer } from "@shared/types/dev";
 import type { FastifyReply, FastifyRequest } from "fastify";
 
+import type { Config } from "../../config/schema";
+import { ConfigToken } from "../../core/config/config.module";
 import { stripBasePath } from "../../utils/url";
 import type { SsrServiceBase } from "./ssr.interface";
 
 @Injectable()
 export class SsrDevService implements SsrServiceBase {
     #devServer!: CustomDevServer;
+
+    constructor(
+        @Inject(ConfigToken) private readonly config: Config,
+    ) { }
 
     init() {
         if (!global.__DEV_SERVER__) {
@@ -28,7 +34,7 @@ export class SsrDevService implements SsrServiceBase {
 
     async handleFallback(req: FastifyRequest, res: FastifyReply) {
         return new Promise<never>((_resolve, reject) => {
-            Object.assign(req.raw, { body: req.body, url: stripBasePath(req.url) });
+            Object.assign(req.raw, { body: req.body, url: stripBasePath(req.url, this.config.app.basePath) });
             this.#devServer.middlewares(req.raw, res.raw, () => {
                 reject(new NotFoundException());
             });

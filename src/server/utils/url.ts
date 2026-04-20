@@ -1,28 +1,24 @@
 import path from "node:path";
 
-import { config } from "../config";
-
-export function stripBasePath(url: string): string {
-    if (config.basePath === "/") {
+export function stripBasePath(url: string, basePath: string): string {
+    if (basePath === "/") {
         return url;
     }
 
-    const base = config.basePath;
-
-    if (url === base) {
+    if (url === basePath) {
         return "/";
     }
 
-    if (url.startsWith(base + "/") || url.startsWith(base + "?") || url.startsWith(base + "#")) {
-        return url.slice(base.length);
+    if (url.startsWith(basePath + "/") || url.startsWith(basePath + "?") || url.startsWith(basePath + "#")) {
+        return url.slice(basePath.length);
     }
 
     return url;
 }
 
-export function ensureBasePath(url: string): string {
-    if (!url.startsWith(config.basePath)) {
-        url = path.join(config.basePath, url);
+export function ensureBasePath(url: string, basePath: string): string {
+    if (!url.startsWith(basePath)) {
+        url = path.join(basePath, url);
     }
 
     return url;

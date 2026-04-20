@@ -3,12 +3,14 @@ import { APP_INTERCEPTOR, APP_PIPE } from "@nestjs/core";
 import { ZodSerializerInterceptor, ZodValidationPipe } from "nestjs-zod";
 
 import { AppController } from "./app.controller";
+import { ConfigModule } from "./core/config/config.module";
 import { DatabaseModule } from "./core/database/database.module";
 import { SsrModule } from "./modules/ssr/ssr.module";
 import { TodoModule } from "./modules/todo/todo.module";
 
 @Module({
     imports: [
+        ConfigModule,
         DatabaseModule,
 
         SsrModule,

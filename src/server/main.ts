@@ -7,9 +7,9 @@ import { FastifyAdapter, type NestFastifyApplication } from "@nestjs/platform-fa
 import type { Application } from "@shared/types/dev";
 
 import { AppModule } from "./app.module";
-import { config } from "./config";
+import type { Config } from "./config/schema";
 import { STATIC_NAME } from "./constant";
-import { AppEnv } from "./utils/env";
+import { ConfigToken } from "./core/config/config.module";
 
 const logger = new Logger("Main");
 let app: NestFastifyApplication;
@@ -22,24 +22,25 @@ export const bootstrap: Application["bootstrap"] = async () => {
     }));
 
     app.enableShutdownHooks();
+    const config = app.get<Config>(ConfigToken);
 
-    if (config.appEnv === AppEnv.Development) {
+    if (config.isDev) {
         await app.get(MikroORM).schema.update();
     }
 
     // Set global prefix for all routes, exclude the ssr route
-    app.setGlobalPrefix(config.basePath, { exclude: ["\\*"] });
+    app.setGlobalPrefix(config.app.basePath, { exclude: ["\\*"] });
 
     if (!global.__DEV_SERVER__) {
         const staticPath = path.join(import.meta.dirname, STATIC_NAME);
-        const staticPrefix = path.join(config.basePath, STATIC_NAME);
+        const staticPrefix = path.join(config.app.basePath, STATIC_NAME);
         app.useStaticAssets({ root: staticPath, prefix: staticPrefix });
     }
 
-    const server = await app.listen(config.port);
+    const server = await app.listen(config.app.port);
     const appUrl = await app.getUrl();
 
-    logger.log(`Application (${config.appEnv}) is running on: ${appUrl}`);
+    logger.log(`Application is running on: ${appUrl}`);
 
     return server;
 };
