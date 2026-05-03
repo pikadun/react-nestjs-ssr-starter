@@ -48,7 +48,7 @@
     "@commitlint/config-conventional": "^20.5.0",
     "@playwright/test": "^1.59.1",
     "@rsbuild/core": "^2.0.1",
-    "@rsbuild/plugin-react": "^1.4.6",
+    "@rsbuild/plugin-react": "^2.0.0",
     "@types/node": "^24.11.0",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
