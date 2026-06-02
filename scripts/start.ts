@@ -52,3 +52,9 @@ const onAfterDevCompile: OnAfterDevCompileFn = async (info) => {
 
 global.__DEV_SERVER__ = devServer;
 rsbuild.onAfterDevCompile(onAfterDevCompile);
+
+for (const signal of ["SIGINT", "SIGTERM"] as const) {
+    process.once(signal, () => {
+        resetSockets();
+    });
+}

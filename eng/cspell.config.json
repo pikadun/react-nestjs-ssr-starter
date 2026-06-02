@@ -22,6 +22,7 @@
     "nosources",
     "pikadun",
     "rsbuild",
-    "rspack"
+    "rspack",
+    "unflatten"
   ]
 }
