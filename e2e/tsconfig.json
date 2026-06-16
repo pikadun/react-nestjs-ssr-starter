@@ -1,10 +1,12 @@
 {
   "extends": "../eng/tsconfig.base.json",
   "compilerOptions": {
-    "noEmit": true,
-    "tsBuildInfoFile": "../node_modules/.cache/tsbuild/e2e.tsbuildinfo",
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
+    "rewriteRelativeImportExtensions": true,
+    "erasableSyntaxOnly": true,
     "types": [
-      "@types/node"
+      "node"
     ]
   },
   "include": [

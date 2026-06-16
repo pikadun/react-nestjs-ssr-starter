@@ -1,6 +1,5 @@
 import type { RsbuildDevServer, Rspack } from "@rsbuild/core";
 
-import type { Application, CustomDevServer, SsrBundle } from "../src/shared/types/dev.ts";
 import {
     CLIENT_ENTRY_NAME,
     CLIENT_ENVIRONMENT_NAME,

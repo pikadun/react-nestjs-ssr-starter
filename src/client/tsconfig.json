@@ -6,7 +6,6 @@
       "ESNext"
     ],
     "jsx": "react-jsx",
-    "tsBuildInfoFile": "../../node_modules/.cache/tsbuild/client.tsbuildinfo",
     "types": [
       "@rsbuild/core/types"
     ],
@@ -17,13 +16,6 @@
     }
   },
   "include": [
-    "./**/*",
-    "../shared/**/*.ts",
-  ],
-  // dev.ts imports @rsbuild/core, which transitively pulls in @types/node
-  // via @rsbuild/core -> @rspack/core -> compiled/watchpack -> /// <reference types="node" />
-  // Excluding it prevents Node.js types (e.g. "node:path") from leaking into client code.
-  "exclude": [
-    "../shared/types/dev.ts"
+    "./**/*"
   ]
 }

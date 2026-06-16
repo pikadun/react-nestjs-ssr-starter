@@ -1,5 +1,5 @@
 import { Controller } from "@nestjs/common";
-import { PageRoute } from "@shared/routes";
+import { PageRoute } from "@shared/constants/route.constant";
 import { ZodSerializerDto } from "nestjs-zod";
 
 import { Page } from "../../../common/decorators/page.decorator";

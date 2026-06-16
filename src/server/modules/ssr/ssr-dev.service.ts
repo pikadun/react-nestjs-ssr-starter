@@ -1,5 +1,4 @@
 import { Inject, Injectable, NotFoundException } from "@nestjs/common";
-import type { CustomDevServer } from "@shared/types/dev";
 import type { FastifyReply, FastifyRequest } from "fastify";
 
 import type { Config } from "../../config/schema";

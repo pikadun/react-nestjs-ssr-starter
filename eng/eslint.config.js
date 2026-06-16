@@ -13,7 +13,7 @@ export default defineConfig(
             jsx: true,
         },
         {
-            files: ["src/server/**/*.ts", "scripts/**/*.ts"],
+            files: ["src/server/**/*.ts", "scripts/**/*.ts", "e2e/**/*.ts"],
             languageOptions: {
                 globals: globals.node,
             },
@@ -30,10 +30,7 @@ export default defineConfig(
                 ],
             },
         },
-        {
-            files: ["src/server/**/*.module.ts"],
-            rules: { "@typescript-eslint/no-extraneous-class": "off" },
-        },
+
         {
             files: ["src/client/**/*.{ts,tsx}"],
             extends: [
@@ -46,6 +43,20 @@ export default defineConfig(
             rules: {
                 "@typescript-eslint/no-misused-promises": "off",
                 "@typescript-eslint/no-floating-promises": "off",
+            },
+        },
+        {
+            files: ["src/server/**/*.module.ts"],
+            rules: { "@typescript-eslint/no-extraneous-class": "off" },
+        },
+        {
+            files: ["e2e/**/*.test.ts"],
+            rules: { "@typescript-eslint/no-floating-promises": "off" },
+        },
+        {
+            files: ["src/client/views/**/*.{ts,tsx}"],
+            rules: {
+                "react-refresh/only-export-components": "off",
             },
         },
         {

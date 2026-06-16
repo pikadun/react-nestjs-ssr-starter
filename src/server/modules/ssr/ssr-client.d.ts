@@ -10,6 +10,6 @@
  * a module augmentation.
  */
 declare module "@client/entries/ssr" {
-    import type { RenderApp } from "@shared/types/ssr";
+    import type { RenderApp } from "@shared/types/ssr.type";
     export const renderApp: RenderApp;
 }

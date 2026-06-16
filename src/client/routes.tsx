@@ -1,5 +1,5 @@
-import { PageRoute } from "@shared/routes";
-import type { RouteHandle } from "@shared/types/route";
+import { PageRoute } from "@shared/constants/route.constant";
+import type { RouteHandle } from "@shared/types/route.type";
 import type { LazyRouteFunction, RouteObject } from "react-router";
 
 import { RootLayout } from "./layouts/RootLayout";

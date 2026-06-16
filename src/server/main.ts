@@ -4,7 +4,6 @@ import { MikroORM } from "@mikro-orm/sqlite";
 import { Logger } from "@nestjs/common";
 import { NestFactory } from "@nestjs/core";
 import { FastifyAdapter, type NestFastifyApplication } from "@nestjs/platform-fastify";
-import type { Application } from "@shared/types/dev";
 
 import { AppModule } from "./app.module";
 import type { Config } from "./config/schema";

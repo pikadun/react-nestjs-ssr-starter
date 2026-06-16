@@ -16,7 +16,7 @@
     "preview": "APP_ENV=development node --enable-source-maps lib/main.js",
     "pretest:e2e": "npm run build",
     "test:e2e": "playwright test --config e2e/playwright.config.ts",
-    "type-check": "rm -rf ./node_modules/.cache/tsbuild && tsc --build ./tsconfig.json"
+    "type-check": "tsc --build ./tsconfig.json"
   },
   "author": "Dunn",
   "license": "MIT",

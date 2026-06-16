@@ -1,4 +1,4 @@
-import type { RenderApp } from "@shared/types/ssr";
+import type { RenderApp } from "@shared/types/ssr.type";
 import type { FastifyReply, FastifyRequest } from "fastify";
 
 export interface SsrServiceBase {

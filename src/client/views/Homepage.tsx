@@ -1,5 +1,5 @@
 import { Button, Stack, Text, Title } from "@mantine/core";
-import { PageRoute } from "@shared/routes";
+import { PageRoute } from "@shared/constants/route.constant";
 import React from "react";
 import { Link } from "react-router";
 

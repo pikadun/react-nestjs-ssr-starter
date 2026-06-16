@@ -1,5 +1,5 @@
-import type { RouteHandle } from "@shared/types/route";
-import type { RenderApp, RenderAppOptions } from "@shared/types/ssr";
+import type { RouteHandle } from "@shared/types/route.type";
+import type { RenderApp, RenderAppOptions } from "@shared/types/ssr.type";
 import { dehydrate } from "@tanstack/react-query";
 import { renderToString } from "react-dom/server";
 import { createStaticHandler, createStaticRouter, type StaticHandler } from "react-router";

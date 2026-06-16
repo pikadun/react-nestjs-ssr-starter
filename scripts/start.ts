@@ -5,7 +5,6 @@ import { type Socket } from "node:net";
 
 import { createRsbuild, type OnAfterDevCompileFn, type Rspack } from "@rsbuild/core";
 
-import type { Application } from "../src/shared/types/dev.ts";
 import { extendDevServer } from "./dev-server.ts";
 import rsbuildConfig from "./rsbuild.config.ts";
 

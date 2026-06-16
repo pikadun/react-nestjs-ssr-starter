@@ -2,6 +2,7 @@ node_modules/
 lib/
 out/
 .env
+**/tsconfig.tsbuildinfo
 
 # Playwright
 /test-results/
